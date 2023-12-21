@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  
+    <base>CRM/ApiLog</base>
+    <class>ApiLog</class>
+    <name>civicrm_api_log</name>
+    <comment>FIXME</comment>
+    <log>true</log>
+
+    <field>
+        <name>id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>Unique ApiLog ID</comment>
+        <html>
+            <type>Number</type>
+        </html>
+    </field>
+    <primaryKey>
+        <name>id</name>
+        <autoincrement>true</autoincrement>
+    </primaryKey>
+
+    <field>
+        <name>contact_id</name>
+        <type>int unsigned</type>
+        <comment>FK to Contact</comment>
+    </field>
+    <foreignKey>
+        <name>contact_id</name>
+        <table>civicrm_contact</table>
+        <key>id</key>
+        <onDelete>CASCADE</onDelete>
+    </foreignKey>
+
+    <field>
+        <name>api_entity</name>
+        <title>API Entity</title>
+        <type>varchar</type>
+        <length>255</length>
+    </field>
+
+    <field>
+        <name>api_action</name>
+        <title>API Action</title>
+        <type>varchar</type>
+        <length>255</length>
+    </field>
+
+    <field>
+        <name>request</name>
+        <title>Request</title>
+        <type>longtext</type>
+    </field>
+
+    <field>
+        <name>response</name>
+        <title>Response</title>
+        <type>longtext</type>
+    </field>
+
+    <field>
+        <name>success</name>
+        <title>Success</title>
+        <type>boolean</type>
+    </field>
+
+    <field>
+        <name>api_version</name>
+        <title>API Version</title>
+        <type>varchar</type>
+        <length>255</length>
+    </field>
+
+    <field>
+        <name>created_date</name>
+        <type>datetime</type>
+    </field>
+
+</table>
