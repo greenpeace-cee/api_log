@@ -1,8 +1,10 @@
 <?php
 
 require_once 'api_log.civix.php';
+
 // phpcs:disable
 use CRM_ApiLog_ExtensionUtil as E;
+
 // phpcs:enable
 
 /**
@@ -11,6 +13,11 @@ use CRM_ApiLog_ExtensionUtil as E;
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_config/
  */
 function api_log_civicrm_config(&$config): void {
+  Civi::dispatcher()->addListener('civi.api.exception', ['CRM_Apilog_ApiLogService', 'onApiException'], -100);
+  Civi::dispatcher()->addListener('civi.api.respond', ['CRM_Apilog_ApiLogService', 'onApiRespond'], -100);
+  Civi::dispatcher()->addListener('civi.api.resolve', ['CRM_Apilog_ApiLogService', 'onApiResolve'], -100);
+
+
   _api_log_civix_civicrm_config($config);
 }
 
