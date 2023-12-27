@@ -57,12 +57,17 @@
         <type>longtext</type>
         <required>false</required>
     </field>
-
+    
     <field>
         <name>success_filter</name>
         <title>Success Filter</title>
-        <type>longtext</type>
+        <type>int unsigned</type>
         <required>false</required>
+        <comment>Success filter based on option group</comment>
+        <default>1</default>
+        <html>
+            <type>Select</type>
+        </html>
     </field>
 
 </table>
