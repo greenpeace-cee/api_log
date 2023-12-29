@@ -8,14 +8,15 @@ class CRM_ApiLog_Form_ApiLogConfig extends CRM_Core_Form {
   public function buildQuickForm(): void {
     CRM_Utils_System::setTitle(Settings::TITLE . ' - ' . E::ts('Settings'));
 
-    #TODO: Add field with option group
-    $this->add('text', Settings::API_LOG_ENTITY_FILTER, E::ts('Define regular expressions for entity'), ['class' => 'huge', 'placeholder' => 'Enter Entity_%_']);
-    $this->add('text', Settings::API_LOG_ACTION_FILTER, E::ts('Define regular expressions for action'), ['class' => 'huge', 'placeholder' => 'Enter Action_%_']);
-    $this->add('textarea', Settings::API_LOG_REQUEST_FILTER, E::ts('Define regular expressions for request'), ['class' => 'huge', 'placeholder' => 'Enter Value_%_']);
-    $this->add('textarea', Settings::API_LOG_RESPONSE_FILTER, E::ts('Define regular expressions for response'), ['class' => 'huge', 'placeholder' => 'Enter Value_%_']);
-//    $this->addEntityRef('text', Settings::API_LOG_RESPONSE_FILTER, E::ts('Define regular expressions for response'), ['class' => 'huge', 'placeholder' => 'Enter Value_%_']);
+    $apiRequestsStatuses = CRM_Core_OptionGroup::values('api_request_status');
 
-    $this->assign('settingsNames', [Settings::API_LOG_ENTITY_FILTER, Settings::API_LOG_ACTION_FILTER, Settings::API_LOG_REQUEST_FILTER, Settings::API_LOG_RESPONSE_FILTER]);
+    $this->add('text', Settings::API_LOG_ENTITY_FILTER, E::ts('Filter by Entity'), ['class' => 'huge', 'placeholder' => 'Enter Entity_%_']);
+    $this->add('text', Settings::API_LOG_ACTION_FILTER, E::ts('Filter by Action'), ['class' => 'huge', 'placeholder' => 'Enter Action_%_']);
+    $this->add('textarea', Settings::API_LOG_REQUEST_FILTER, E::ts('Filter by Request'), ['class' => 'huge', 'placeholder' => 'Enter Value_%_']);
+    $this->add('textarea', Settings::API_LOG_RESPONSE_FILTER, E::ts('Filter by Response'), ['class' => 'huge', 'placeholder' => 'Enter Value_%_']);
+    $this->add('select', Settings::API_LOG_SUCCESS_FILTER, E::ts('Filter by Success'), $apiRequestsStatuses, false, ['class' => 'huge crm-select2']);
+
+    $this->assign('settingsNames', [Settings::API_LOG_ENTITY_FILTER, Settings::API_LOG_ACTION_FILTER, Settings::API_LOG_REQUEST_FILTER, Settings::API_LOG_RESPONSE_FILTER, Settings::API_LOG_SUCCESS_FILTER]);
 
     $this->addButtons([
       [
@@ -38,6 +39,7 @@ class CRM_ApiLog_Form_ApiLogConfig extends CRM_Core_Form {
       Settings::API_LOG_ACTION_FILTER => Settings::getActionFilterValues(),
       Settings::API_LOG_REQUEST_FILTER => Settings::getRequestFilterValues(),
       Settings::API_LOG_RESPONSE_FILTER => Settings::getResponseFilterValues(),
+      Settings::API_LOG_SUCCESS_FILTER => Settings::getSuccessFilterValues(),
     ];
   }
 
@@ -53,7 +55,9 @@ class CRM_ApiLog_Form_ApiLogConfig extends CRM_Core_Form {
 
     Settings::setResponseFilterValues($values[Settings::API_LOG_RESPONSE_FILTER] ?? '');
 
-    CRM_Core_Session::setStatus(E::ts('Saved!'));
+    Settings::setSuccessFilterValues($values[Settings::API_LOG_SUCCESS_FILTER]);
+
+    CRM_Core_Session::setStatus(E::ts("Your Configurations has been saved."), E::ts('Saved'), 'success');
     parent::postProcess();
   }
 

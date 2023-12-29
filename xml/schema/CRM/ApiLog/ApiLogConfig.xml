@@ -4,7 +4,7 @@
     <base>CRM/ApiLog</base>
     <class>ApiLogConfig</class>
     <name>civicrm_api_log_config</name>
-    <comment>FIXME</comment>
+    <comment>Entity which contains Api Log configurations</comment>
     <log>true</log>
 
     <field>
@@ -57,7 +57,7 @@
         <type>longtext</type>
         <required>false</required>
     </field>
-    
+
     <field>
         <name>success_filter</name>
         <title>Success Filter</title>
@@ -65,6 +65,9 @@
         <required>false</required>
         <comment>Success filter based on option group</comment>
         <default>1</default>
+        <pseudoconstant>
+            <optionGroupName>api_request_status</optionGroupName>
+        </pseudoconstant>
         <html>
             <type>Select</type>
         </html>

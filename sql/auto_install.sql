@@ -53,7 +53,7 @@ ENGINE=InnoDB;
 -- *
 -- * civicrm_api_log_config
 -- *
--- * FIXME
+-- * Entity which contains Api Log configurations
 -- *
 -- *******************************************************/
 CREATE TABLE `civicrm_api_log_config` (
@@ -63,7 +63,7 @@ CREATE TABLE `civicrm_api_log_config` (
   `action_filter` longtext NULL,
   `request_filter` longtext NULL,
   `response_filter` longtext NULL,
-  `success_filter` longtext NULL,
+  `success_filter` int unsigned NULL DEFAULT 1 COMMENT 'Success filter based on option group',
   PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB;

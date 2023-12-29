@@ -2,7 +2,6 @@
 
 use Civi\API\Events;
 use Civi\Utils\Settings;
-use CRM_ApiLog_ExtensionUtil as E;
 use Civi\Core\Service\AutoService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -14,7 +13,7 @@ class CRM_ApiLog_ApiLogService extends AutoService implements EventSubscriberInt
   public static function getSubscribedEvents(): array {
     return [
       'civi.api.respond' => ['onApiRespond', Events::W_LATE],
-      // 'civi.api.prepare' => ['onApiPrepare', Events::W_LATE],
+      'civi.api.prepare' => ['onApiPrepare', Events::W_EARLY],
       'civi.api.exception' => ['onApiException', Events::W_LATE],
     ];
   }
@@ -38,47 +37,51 @@ class CRM_ApiLog_ApiLogService extends AutoService implements EventSubscriberInt
     $entityValuesArray = self::parseFilterValues(Settings::getEntityFilterValues());
     $actionValuesArray = self::parseFilterValues(Settings::getActionFilterValues());
 
-    if (self::isEntityOrActionAllowed($apiRequest, $entityValuesArray, $actionValuesArray)
-      || self::isRecordAllowed($apiRequest, Settings::getRequestFilterValues())
-      || self::isRecordAllowed($apiResponse, Settings::getResponseFilterValues())) {
+    if (
+      self::isEntityOrActionAllowed($apiRequest, $entityValuesArray, $actionValuesArray)
+      || self::isAllowedBasedOnJmesPath($apiRequest, Settings::getRequestFilterValues())
+      || self::isAllowedBasedOnJmesPath($apiResponse, Settings::getResponseFilterValues())
+    ) {
       self::logApiRequest($apiRequest, $apiResponse, $isSuccess);
     }
   }
 
-  private static function isEntityOrActionAllowed($apiRequest, $entityValues, $actionValues): bool {
-    return (isset($apiRequest['entity']) && self::isAllowed($apiRequest['entity'], $entityValues))
-      || (isset($apiRequest['action']) && self::isAllowed($apiRequest['action'], $actionValues));
+  private static function logApiRequest($apiRequest, $apiResponse, $isSuccess): void {
+    CRM_ApiLog_BAO_ApiLog::create([
+      'contact_id' => CRM_Core_Session::getLoggedInContactID(),
+      'api_entity' => $apiRequest['entity'] ?? null,
+      'api_action' => $apiRequest['action'] ?? null,
+      'request' => json_encode($apiRequest),
+      'response' => json_encode($apiResponse),
+      'api_version' => $apiRequest['version'] ?? null,
+      'success' => $isSuccess,
+      'created_date' => date('YmdHis'),
+    ]);
   }
 
-  private static function isAllowed($value, $filterValues): bool {
+  private static function isEntityOrActionAllowed($apiRequest, $entityValues, $actionValues): bool {
+    return (isset($apiRequest['entity']) && self::isAllowedBasedOnRegexValue($apiRequest['entity'], $entityValues))
+      || (isset($apiRequest['action']) && self::isAllowedBasedOnRegexValue($apiRequest['action'], $actionValues));
+  }
+
+  private static function isAllowedBasedOnRegexValue($value, $filterValues): bool {
     foreach ($filterValues as $filterValue) {
-      if (str_contains($value, $filterValue)) {
+      $pattern = '/' . preg_quote($filterValue, '/') . '/i';
+
+      if (preg_match($pattern, $value)) {
         return true;
       }
     }
     return false;
   }
 
-  private static function logApiRequest($apiRequest, $apiResponse, $isSuccess): void {
-    CRM_ApiLog_BAO_ApiLog::create([
-      'contact_id' => CRM_Core_Session::getLoggedInContactID(),
-      'api_entity' => $apiRequest['entity'],
-      'api_action' => $apiRequest['action'],
-      'request' => json_encode($apiRequest),
-      'response' => json_encode($apiResponse),
-      'api_version' => $apiRequest['version'],
-      'success' => $isSuccess,
-      'created_date' => date('YmdHis'),
-    ]);
-  }
-
   private static function parseFilterValues($filterValues): array {
-    return $filterValues ? (str_contains($filterValues, '_&_') ? explode('_&_', $filterValues) : [$filterValues]) : [];
+    return is_array($filterValues) ? $filterValues : explode('_&_', $filterValues);
   }
 
-  private static function isRecordAllowed($data, $expression): bool {
+  private static function isAllowedBasedOnJmesPath($data, $expression): bool {
     if (empty($expression)) {
-      return true;
+      return false;
     }
 
     $filterValues = is_array($expression) ? $expression : explode('_&_', $expression);
