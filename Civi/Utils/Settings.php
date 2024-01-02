@@ -6,9 +6,10 @@ namespace Civi\Utils;
 use Civi;
 
 class Settings {
-
   const TITLE = 'ApiLog';
+  const SEPARATOR = '_&_';
 
+  const API_LOG_IS_LOGGER_ENABLED = 'api_log_is_logger_enabled';
   const API_LOG_ENTITY_FILTER = 'api_log_entity_filter';
   const API_LOG_ACTION_FILTER = 'api_log_action_filter';
   const API_LOG_REQUEST_FILTER = 'api_log_request_filter';
@@ -35,6 +36,10 @@ class Settings {
     return Civi::settings()->get(Settings::API_LOG_SUCCESS_FILTER);
   }
 
+  public static function getIsApiLoggerEnabled() {
+    return Civi::settings()->get(Settings::API_LOG_IS_LOGGER_ENABLED);
+  }
+
   public static function setEntityFilterValues($filterValue): void {
     Civi::settings()->set(Settings::API_LOG_ENTITY_FILTER, $filterValue);
   }
@@ -53,5 +58,9 @@ class Settings {
 
   public static function setSuccessFilterValues($filterValue): void {
     Civi::settings()->set(Settings::API_LOG_SUCCESS_FILTER, $filterValue);
+  }
+
+  public static function setIsApiLoggerEnabled($filterValue): void {
+    Civi::settings()->set(Settings::API_LOG_IS_LOGGER_ENABLED, $filterValue);
   }
 }

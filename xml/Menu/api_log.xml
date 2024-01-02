@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <menu>
-  <item>
-    <path>civicrm/apilogconfig</path>
-    <page_callback>CRM_ApiLog_Form_ApiLogConfig</page_callback>
-    <title>ApiLogConfig</title>
-    <access_arguments>access CiviCRM</access_arguments>
-  </item>
+    <item>
+        <path>civicrm/api-log/config</path>
+        <page_callback>CRM_ApiLog_Form_ApiLogConfig</page_callback>
+        <title>ApiLogConfig</title>
+        <access_arguments>access CiviCRM</access_arguments>
+    </item>
 </menu>

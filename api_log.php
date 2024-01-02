@@ -3,6 +3,7 @@
 require_once 'api_log.civix.php';
 
 // phpcs:disable
+use Civi\Utils\Settings;
 use CRM_ApiLog_ExtensionUtil as E;
 
 // phpcs:enable
@@ -15,11 +16,11 @@ use CRM_ApiLog_ExtensionUtil as E;
 function api_log_civicrm_config(&$config): void {
   _api_log_civix_civicrm_config($config);
 
-  Civi::dispatcher()->addListener('civi.api.exception', ['CRM_Apilog_ApiLogService', 'onApiException'], -100);
-  Civi::dispatcher()->addListener('civi.api.respond', ['CRM_Apilog_ApiLogService', 'onApiRespond'], -100);
-  #TODO: fix api prepare on install
-//  Civi::dispatcher()->addListener('civi.api.prepare', ['CRM_Apilog_ApiLogService', 'onApiPrepare'], 0);
-
+  if (Settings::getIsApiLoggerEnabled() !== null) {
+    Civi::dispatcher()->addListener('civi.api.exception', ['CRM_Apilog_ApiLogService', 'onApiException'], -100);
+    Civi::dispatcher()->addListener('civi.api.respond', ['CRM_Apilog_ApiLogService', 'onApiRespond'], -100);
+    Civi::dispatcher()->addListener('civi.api.prepare', ['CRM_Apilog_ApiLogService', 'onApiPrepare'], -100);
+  }
 
 }
 
@@ -45,7 +46,7 @@ function api_log_civicrm_navigationMenu(&$menu) {
   _api_log_civix_insert_navigation_menu($menu, null, array(
     'label' => E::ts('Manage API log'),
     'name' => 'api_log',
-    'url' => 'civicrm/apilogconfig',
+    'url' => 'civicrm/api-log/config',
     'permission' => 'administer CiviCRM',
     'operator' => null,
     'separator' => 0,
