@@ -16,7 +16,7 @@ use CRM_ApiLog_ExtensionUtil as E;
 function api_log_civicrm_config(&$config): void {
   _api_log_civix_civicrm_config($config);
 
-  if (Settings::getIsApiLoggerEnabled() !== 0) {
+  if (Settings::getIsApiLoggerEnabled()) {
     Civi::dispatcher()->addListener('civi.api.exception', ['CRM_Apilog_ApiLogService', 'onApiException'], -100);
     Civi::dispatcher()->addListener('civi.api.respond', ['CRM_Apilog_ApiLogService', 'onApiRespond'], -100);
     Civi::dispatcher()->addListener('civi.api.prepare', ['CRM_Apilog_ApiLogService', 'onApiPrepare'], -100);

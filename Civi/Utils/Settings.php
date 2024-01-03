@@ -36,8 +36,9 @@ class Settings {
     return Civi::settings()->get(Settings::API_LOG_SUCCESS_FILTER);
   }
 
-  public static function getIsApiLoggerEnabled() {
-    return Civi::settings()->get(Settings::API_LOG_IS_LOGGER_ENABLED);
+  public static function getIsApiLoggerEnabled(): bool {
+    $isEnabled = Civi::settings()->get(Settings::API_LOG_IS_LOGGER_ENABLED);
+    return !empty($isEnabled);
   }
 
   public static function setEntityFilterValues($filterValue): void {
