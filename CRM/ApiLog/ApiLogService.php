@@ -36,13 +36,22 @@ class CRM_ApiLog_ApiLogService extends AutoService implements EventSubscriberInt
 
     $entityValues = self::parseFilterValues(Settings::getEntityFilterValues());
     $actionValues = self::parseFilterValues(Settings::getActionFilterValues());
+    $logBySuccessOption = Settings::getSuccessFilterValues();
+
+    if ($apiRequest && isset($apiRequest['is_error'])) {
+      if ($apiRequest['is_error'] !== 0) {
+        $isSuccess = false;
+      }
+    }
 
     if (
       self::isEntityOrActionAllowed($apiRequest, $entityValues, $actionValues)
       || self::isAllowedBasedOnJmesPath($apiRequest, Settings::getRequestFilterValues())
       || self::isAllowedBasedOnJmesPath($apiResponse, Settings::getResponseFilterValues())
     ) {
-      self::logApiRequest($apiRequest, $apiResponse, $isSuccess);
+      if (($logBySuccessOption == 1) || ($logBySuccessOption == 2 && $isSuccess) || ($logBySuccessOption == 3 && !$isSuccess)) {
+        self::logApiRequest($apiRequest, $apiResponse, $isSuccess);
+      }
     }
   }
 
