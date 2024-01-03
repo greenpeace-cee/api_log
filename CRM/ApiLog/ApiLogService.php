@@ -13,7 +13,7 @@ class CRM_ApiLog_ApiLogService extends AutoService implements EventSubscriberInt
   public static function getSubscribedEvents(): array {
     return [
       'civi.api.respond' => ['onApiRespond', Events::W_LATE],
-      'civi.api.prepare' => ['onApiPrepare', Events::W_EARLY],
+      'civi.api.prepare' => ['onApiPrepare', Events::W_LATE],
       'civi.api.exception' => ['onApiException', Events::W_LATE],
     ];
   }
