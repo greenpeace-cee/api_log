@@ -20,15 +20,7 @@
         <name>id</name>
         <autoincrement>true</autoincrement>
     </primaryKey>
-
-    <field>
-        <name>title</name>
-        <title>Title</title>
-        <type>varchar</type>
-        <length>255</length>
-        <required>false</required>
-    </field>
-
+    
     <field>
         <name>entity_filter</name>
         <title>Entity Filter</title>

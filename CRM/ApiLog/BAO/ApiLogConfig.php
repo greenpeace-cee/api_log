@@ -1,5 +1,6 @@
 <?php
 
+use Civi\Core\Exception\DBQueryException;
 use CRM_ApiLog_ExtensionUtil as E;
 
 class CRM_ApiLog_BAO_ApiLogConfig extends CRM_ApiLog_DAO_ApiLogConfig {
@@ -26,10 +27,6 @@ class CRM_ApiLog_BAO_ApiLogConfig extends CRM_ApiLog_DAO_ApiLogConfig {
   private static function buildWhereQuery($query, $params = []) {
     if (!empty($params['id'])) {
       $query->where('id = #id', ['id' => $params['id']]);
-    }
-
-    if (!empty($params['title'])) {
-      $query->where('title = @title', ['title' => $params['title']]);
     }
 
     if (!empty($params['entity_filter'])) {

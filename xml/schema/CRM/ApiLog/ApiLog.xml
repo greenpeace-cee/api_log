@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  
+
     <base>CRM/ApiLog</base>
     <class>ApiLog</class>
     <name>civicrm_api_log</name>
@@ -31,7 +31,7 @@
         <name>contact_id</name>
         <table>civicrm_contact</table>
         <key>id</key>
-        <onDelete>CASCADE</onDelete>
+        <onDelete>SET NULL</onDelete>
     </foreignKey>
 
     <field>

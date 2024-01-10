@@ -45,7 +45,7 @@ CREATE TABLE `civicrm_api_log` (
   `api_version` varchar(255),
   `created_date` datetime,
   PRIMARY KEY (`id`),
-  CONSTRAINT FK_civicrm_api_log_contact_id FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact`(`id`) ON DELETE CASCADE
+  CONSTRAINT FK_civicrm_api_log_contact_id FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact`(`id`) ON DELETE SET NULL
 )
 ENGINE=InnoDB;
 
@@ -58,7 +58,6 @@ ENGINE=InnoDB;
 -- *******************************************************/
 CREATE TABLE `civicrm_api_log_config` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique ApiLogConfig ID',
-  `title` varchar(255) NULL,
   `entity_filter` varchar(255) NULL,
   `action_filter` longtext NULL,
   `request_filter` longtext NULL,
