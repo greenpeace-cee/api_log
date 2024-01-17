@@ -6,7 +6,6 @@
     <name>civicrm_api_log_config</name>
     <comment>Entity which contains Api Log configurations</comment>
     <log>true</log>
-
     <field>
         <name>id</name>
         <type>int unsigned</type>
@@ -20,7 +19,15 @@
         <name>id</name>
         <autoincrement>true</autoincrement>
     </primaryKey>
-    
+
+    <field>
+        <name>title</name>
+        <title>Title</title>
+        <type>varchar</type>
+        <length>255</length>
+        <required>true</required>
+    </field>
+
     <field>
         <name>entity_filter</name>
         <title>Entity Filter</title>

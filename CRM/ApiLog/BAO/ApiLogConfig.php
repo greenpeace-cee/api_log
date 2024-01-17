@@ -17,16 +17,40 @@ class CRM_ApiLog_BAO_ApiLogConfig extends CRM_ApiLog_DAO_ApiLogConfig {
     $instance = new self();
     $instance->copyValues($params);
 
+    if (!empty($params['id'])) {
+      CRM_Utils_Hook::pre('edit', self::getEntityName(), $params['id'], $params);
+    } else {
+      CRM_Utils_Hook::pre('create', self::getEntityName(), NULL, $params);
+    }
+
     $instance->save();
-
-    CRM_Utils_Hook::post('create', self::getEntityName(), $instance->id, $instance);
-
+    
     return $instance;
+  }
+
+  /**
+   * Delete config
+   * @param $id
+   */
+  public static function del($id) {
+    $entity = new CRM_Apilog_BAO_ApiLogConfig();
+    $entity->id = $id;
+    $params = [];
+
+    if ($entity->find(TRUE)) {
+      CRM_Utils_Hook::pre('delete', self::getEntityName(), $entity->id, $params);
+      $entity->delete();
+      CRM_Utils_Hook::post('delete', self::getEntityName(), $entity->id, $entity);
+    }
   }
 
   private static function buildWhereQuery($query, $params = []) {
     if (!empty($params['id'])) {
       $query->where('id = #id', ['id' => $params['id']]);
+    }
+
+    if (!empty($params['title'])) {
+      $query->where('title = @title', ['title' => $params['title']]);
     }
 
     if (!empty($params['entity_filter'])) {
