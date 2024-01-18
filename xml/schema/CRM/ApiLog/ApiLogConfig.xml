@@ -33,28 +33,28 @@
         <title>Entity Filter</title>
         <type>varchar</type>
         <length>255</length>
-        <required>false</required>
+        <required>true</required>
     </field>
 
     <field>
         <name>action_filter</name>
         <title>Action Filter</title>
         <type>longtext</type>
-        <required>false</required>
+        <required>true</required>
     </field>
 
     <field>
         <name>request_filter</name>
         <title>Request Filter</title>
         <type>longtext</type>
-        <required>false</required>
+        <required>true</required>
     </field>
 
     <field>
         <name>response_filter</name>
         <title>Response Filter</title>
         <type>longtext</type>
-        <required>false</required>
+        <required>true</required>
     </field>
 
     <field>

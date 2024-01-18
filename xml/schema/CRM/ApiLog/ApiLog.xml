@@ -36,8 +36,15 @@
 
     <field>
         <name>api_log_config_id</name>
+        <title>ApiLogConfig</title>
         <type>int unsigned</type>
         <comment>FK to ApiLogConfig</comment>
+        <pseudoconstant>
+            <table>civicrm_api_log_config</table>
+            <keyColumn>id</keyColumn>
+            <labelColumn>id</labelColumn>
+            <prefetch>FALSE</prefetch>
+        </pseudoconstant>
     </field>
     <foreignKey>
         <name>api_log_config_id</name>

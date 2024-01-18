@@ -37,10 +37,10 @@ SET FOREIGN_KEY_CHECKS=1;
 CREATE TABLE `civicrm_api_log_config` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique ApiLogConfig ID',
   `title` varchar(255) NOT NULL,
-  `entity_filter` varchar(255) NULL,
-  `action_filter` longtext NULL,
-  `request_filter` longtext NULL,
-  `response_filter` longtext NULL,
+  `entity_filter` varchar(255) NOT NULL,
+  `action_filter` longtext NOT NULL,
+  `request_filter` longtext NOT NULL,
+  `response_filter` longtext NOT NULL,
   `success_filter` int unsigned NULL DEFAULT 1 COMMENT 'Success filter based on option group',
   PRIMARY KEY (`id`)
 )

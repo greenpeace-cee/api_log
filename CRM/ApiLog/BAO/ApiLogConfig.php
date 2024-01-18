@@ -24,7 +24,7 @@ class CRM_ApiLog_BAO_ApiLogConfig extends CRM_ApiLog_DAO_ApiLogConfig {
     }
 
     $instance->save();
-    
+
     return $instance;
   }
 
@@ -71,6 +71,58 @@ class CRM_ApiLog_BAO_ApiLogConfig extends CRM_ApiLog_DAO_ApiLogConfig {
 
     if (!empty($params['success_filter'])) {
       $query->where('success_filter = @success_filter', ['success_filter' => $params['success_filter']]);
+    }
+
+    return $query;
+  }
+
+  /**
+   * Gets all data
+   *
+   * @param array $params
+   *
+   * @return array
+   */
+  public static function getAll($params = []) {
+    $query = self::buildOrderQuery(self::buildWhereQuery(self::buildSelectQuery(), $params), $params);
+    return CRM_Core_DAO::executeQuery($query->toSQL())->fetchAll();
+  }
+
+
+  /**
+   * Adds order params to query
+   *
+   * @param $query
+   * @param array $params
+   * @return mixed
+   */
+  private static function buildOrderQuery($query, array $params = []) {
+    if (!empty($params['options']['sort'])) {
+      $sortParams = explode(' ', strtolower($params['options']['sort']));
+      $availableFieldsToSort = ['weight'];
+      $order = '';
+
+      if (!empty($sortParams[1]) && ($sortParams[1] == 'desc' || $sortParams[1] == 'asc')) {
+        $order = $sortParams[1];
+      }
+
+      if (in_array($sortParams[0], $availableFieldsToSort)) {
+        $query->orderBy($sortParams[0] . ' ' . $order);
+      }
+    }
+
+    return $query;
+  }
+
+  private static function buildSelectQuery($returnValue = 'rows') {
+    $query = CRM_Utils_SQL_Select::from(self::getTableName());
+
+    if ($returnValue == 'rows') {
+      $query->select('*');
+    } else {
+      if ($returnValue == 'count') {
+        $query->select('COUNT(id)');
+      }
     }
 
     return $query;
