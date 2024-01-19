@@ -6,4 +6,10 @@
         <title>ApiLogConfig</title>
         <access_arguments>access CiviCRM</access_arguments>
     </item>
+    <item>
+        <path>civicrm/api-log/api-log-setting</path>
+        <page_callback>CRM_ApiLog_Form_ApiLogSetting</page_callback>
+        <title>ApiLogSetting</title>
+        <access_arguments>access CiviCRM</access_arguments>
+    </item>
 </menu>

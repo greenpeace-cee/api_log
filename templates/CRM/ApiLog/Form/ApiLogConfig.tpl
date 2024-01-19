@@ -2,6 +2,9 @@
   <div class="crm-block crm-form-block">
       {*ADD, UPDATE*}
       {if $action == 1 or $action == 2}
+        <div class="help">
+            {ts domain=api_log}If you won't specify config for some fields, than left "*"{/ts}
+        </div>
         <div class="api-log__settings">
           <div class="api-log__settings-items">
               {foreach from=$settingsNames item=elementName}
