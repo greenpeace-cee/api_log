@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+
+    <base>CRM/ApiLog</base>
+    <class>ApiLog</class>
+    <name>civicrm_api_log</name>
+    <comment>FIXME</comment>
+    <log>true</log>
+
+    <field>
+        <name>id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>Unique ApiLog ID</comment>
+        <html>
+            <type>Number</type>
+        </html>
+    </field>
+    <primaryKey>
+        <name>id</name>
+        <autoincrement>true</autoincrement>
+    </primaryKey>
+
+    <field>
+        <name>contact_id</name>
+        <type>int unsigned</type>
+        <comment>FK to Contact</comment>
+    </field>
+    <foreignKey>
+        <name>contact_id</name>
+        <table>civicrm_contact</table>
+        <key>id</key>
+        <onDelete>SET NULL</onDelete>
+    </foreignKey>
+
+    <field>
+        <name>api_log_config_id</name>
+        <title>ApiLogConfig</title>
+        <type>int unsigned</type>
+        <comment>FK to ApiLogConfig</comment>
+        <pseudoconstant>
+            <table>civicrm_api_log_config</table>
+            <keyColumn>id</keyColumn>
+            <labelColumn>id</labelColumn>
+            <prefetch>FALSE</prefetch>
+        </pseudoconstant>
+    </field>
+    <foreignKey>
+        <name>api_log_config_id</name>
+        <table>civicrm_api_log_config</table>
+        <key>id</key>
+        <onDelete>SET NULL</onDelete>
+    </foreignKey>
+
+    <field>
+        <name>api_entity</name>
+        <title>API Entity</title>
+        <type>varchar</type>
+        <required>true</required>
+        <length>255</length>
+    </field>
+
+    <field>
+        <name>api_action</name>
+        <title>API Action</title>
+        <type>varchar</type>
+        <required>true</required>
+        <length>255</length>
+    </field>
+
+    <field>
+        <name>request</name>
+        <title>Request</title>
+        <type>longtext</type>
+    </field>
+
+    <field>
+        <name>response</name>
+        <title>Response</title>
+        <type>longtext</type>
+    </field>
+
+    <field>
+        <name>success</name>
+        <title>Success</title>
+        <type>boolean</type>
+        <required>true</required>
+    </field>
+
+    <field>
+        <name>api_version</name>
+        <title>API Version</title>
+        <type>tinyint</type>
+        <required>true</required>
+    </field>
+
+    <field>
+        <name>created_date</name>
+        <type>datetime</type>
+        <required>true</required>
+        <default>CURRENT_TIMESTAMP</default>
+    </field>
+
+</table>
