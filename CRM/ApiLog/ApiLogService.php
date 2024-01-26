@@ -18,7 +18,8 @@ class CRM_ApiLog_ApiLogService extends AutoService implements EventSubscriberInt
   }
 
   public static function getConfigs(): array {
-    return CRM_ApiLog_BAO_ApiLogConfig::getAll();
+    Civi::$statics[__CLASS__]['configs'] = CRM_ApiLog_BAO_ApiLogConfig::getAll();
+    return Civi::$statics[__CLASS__]['configs'];
   }
 
   public static function onApiRespond($event): void {
@@ -56,8 +57,7 @@ class CRM_ApiLog_ApiLogService extends AutoService implements EventSubscriberInt
     $apiRequest = $event->getApiRequest();
     if ($event instanceof \Civi\API\Event\ExceptionEvent) {
       $apiResponse = self::formatException($event);
-    }
-    else {
+    } else {
       $apiResponse = $event->getResponse();
     }
 
@@ -131,16 +131,13 @@ class CRM_ApiLog_ApiLogService extends AutoService implements EventSubscriberInt
       $kernel = $event->getApiKernel();
       if ($e instanceof \CRM_Core_Exception) {
         $err = $kernel->formatApiException($e, $apiRequest);
-      }
-      elseif ($e instanceof \PEAR_Exception) {
+      } elseif ($e instanceof \PEAR_Exception) {
         $err = $kernel->formatPearException($e, $apiRequest);
-      }
-      else {
+      } else {
         $err = $kernel->formatException($e, $apiRequest);
       }
       return $kernel->formatResult($apiRequest, $err);
-    }
-    else {
+    } else {
       $response = [];
       $statusMap = [
         \Civi\API\Exception\UnauthorizedException::class => 403,
@@ -159,8 +156,7 @@ class CRM_ApiLog_ApiLogService extends AutoService implements EventSubscriberInt
         }
         // Would prefer getTrace() but that causes json_encode to bomb
         $response['debug']['backtrace'] = $e->getTraceAsString();
-      }
-      else {
+      } else {
         $response['error_code'] = 1;
         $response['error_message'] = $e->getMessage();
         $response['debug']['backtrace'] = $e->getTraceAsString();

@@ -42,9 +42,28 @@ function api_log_civicrm_enable(): void {
 
 function api_log_civicrm_navigationMenu(&$menu) {
   _api_log_civix_insert_navigation_menu($menu, 'Administer/System Settings', array(
-    'label' => E::ts('API log settings'),
-    'name' => 'api_log_api_log_setting',
-    'url' => 'civicrm/api-log/api-log-setting',
+    'label' => E::ts('API Logs'),
+    'name' => 'api_log',
+    'url' => null,
+    'permission' => 'access CiviCRM',
+    'operator' => null,
+    'separator' => 0,
+    'icon' => 'crm-i fa-cog',
+  ));
+
+  _api_log_civix_insert_navigation_menu($menu, 'Administer/System Settings/api_log', array(
+    'label' => E::ts('API Log Settings'),
+    'name' => 'api_log_api_log_settings',
+    'url' => 'civicrm/api-log/api-log-settings',
+    'permission' => 'access CiviCRM',
+    'operator' => 'OR',
+    'separator' => 0,
+  ));
+
+  _api_log_civix_insert_navigation_menu($menu, 'Administer/System Settings/api_log', array(
+    'label' => E::ts('API Log Configurations'),
+    'name' => 'api_log_api_log_configs',
+    'url' => 'civicrm/api-log',
     'permission' => 'access CiviCRM',
     'operator' => 'OR',
     'separator' => 0,

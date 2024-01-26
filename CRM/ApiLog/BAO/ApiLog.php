@@ -59,15 +59,15 @@ class CRM_ApiLog_BAO_ApiLog extends CRM_ApiLog_DAO_ApiLog {
     }
 
     if (!empty($params['success'])) {
-      $query->where('success = @success', ['success' => $params['success']]);
+      $query->where('success = #success', ['success' => $params['success']]);
     }
 
     if (!empty($params['api_version'])) {
-      $query->where('api_version = @api_version', ['api_version' => $params['api_version']]);
+      $query->where('api_version = #api_version', ['api_version' => $params['api_version']]);
     }
 
     if (!empty($params['contact_id'])) {
-      $query->where('contact_id = @contact_id', ['contact_id' => $params['contact_id']]);
+      $query->where('contact_id = #contact_id', ['contact_id' => $params['contact_id']]);
     }
 
     if (!empty($params['created_date'])) {

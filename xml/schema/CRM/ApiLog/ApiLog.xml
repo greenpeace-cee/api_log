@@ -57,6 +57,7 @@
         <name>api_entity</name>
         <title>API Entity</title>
         <type>varchar</type>
+        <required>true</required>
         <length>255</length>
     </field>
 
@@ -64,6 +65,7 @@
         <name>api_action</name>
         <title>API Action</title>
         <type>varchar</type>
+        <required>true</required>
         <length>255</length>
     </field>
 
@@ -83,18 +85,21 @@
         <name>success</name>
         <title>Success</title>
         <type>boolean</type>
+        <required>true</required>
     </field>
 
     <field>
         <name>api_version</name>
         <title>API Version</title>
-        <type>varchar</type>
-        <length>255</length>
+        <type>tinyint</type>
+        <required>true</required>
     </field>
 
     <field>
         <name>created_date</name>
         <type>datetime</type>
+        <required>true</required>
+        <default>CURRENT_TIMESTAMP</default>
     </field>
 
 </table>

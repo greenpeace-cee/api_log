@@ -39,7 +39,8 @@
     <field>
         <name>action_filter</name>
         <title>Action Filter</title>
-        <type>longtext</type>
+        <type>varchar</type>
+        <length>255</length>
         <required>true</required>
     </field>
 
